@@ -25,7 +25,7 @@ class Client(discord.Client):
 
         match = self.re.search(message.content)
         if match:
-            post = match.group()
+            post = match.group()[1:]
             await message.reply("https://piazza.com/class/kmfs2bmdr9syz?cid={}".format(post, post))
 
 def main():
