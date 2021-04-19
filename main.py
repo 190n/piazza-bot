@@ -1,6 +1,5 @@
 import discord
 import re
-from piazza_api import Piazza
 import config
 
 
@@ -10,11 +9,6 @@ class Client(discord.Client):
 
         # Regex to check if message wants a post
         self.re = re.compile("p([0-9])+", re.IGNORECASE)
-
-        # Piazza setup
-        p = Piazza()
-        p.user_login()
-        self.network = p.network("kmfs2bmdr9syz") # CSE 13S
 
     async def on_ready(self):
         print("Connected as {}".format(self.user))
