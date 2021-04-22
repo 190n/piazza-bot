@@ -1,6 +1,7 @@
 import discord
 import re
 import config
+from piazza_api import Piazza
 
 
 class Client(discord.Client):
@@ -8,7 +9,12 @@ class Client(discord.Client):
         super(Client, self).__init__()
 
         # Regex to check if message wants a post
-        self.re = re.compile(r"(^|\s)p([0-9]+)", re.IGNORECASE)
+        self.piazza_regex = re.compile(r"(^|\s)p([0-9]+)", re.IGNORECASE)
+
+        # Piazza setup
+        p = Piazza()
+        p.user_login()
+        self.network = p.network(config.network)
 
     async def on_ready(self):
         print("Connected as {}".format(self.user))
@@ -17,12 +23,35 @@ class Client(discord.Client):
         if message.author == self.user:
             return
 
-        match = self.re.search(message.content)
+        match = self.piazza_regex.search(message.content)
+
         if match:
-            post = match.group(2)
-            reply = await message.reply(("Piazza @{}: https://piazza.com/class/kmfs2bmdr9syz?cid={}\n"
-                    "(<@{}> can delete by reacting)").format(post, post, message.author.id))
+            # Fetch the post
+            n = match.group(2)
+            post = self.network.get_post(int(n))
+
+            # Find the subject and content of the latest version of the post
+            latest = post["history_size"] - 1
+            subject = post["history"][latest]["subject"]
+            content = post["history"][latest]["content"]
+
+            # Try to remove HTML from content
+            content = re.sub('<[^<]+?>', '', content)
+
+            # The base of the URL of any post
+            url = f"https://piazza.com/class/{config.network}?cid="
+
+            # Construct a pretty embed
+            e = discord.Embed(
+                title=subject,
+                description="> " + content[:80] + f"...\n\nTo delete this, <@{message.author.id}> can react with 🗑️.",
+                url=url + n,
+                color=0xffb862
+            )
+
+            reply = await message.reply(embed=e)
             await reply.add_reaction("🗑️")
+
 
     async def on_raw_reaction_add(self, payload):
         if payload.user_id == self.user.id:
@@ -40,9 +69,11 @@ class Client(discord.Client):
                 if payload.user_id in [user.id for user in message.mentions]:
                     await message.delete()
 
+
 def main():
     client = Client()
     client.run(config.token)
+
 
 if __name__ == "__main__":
     main()
