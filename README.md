@@ -1,10 +1,7 @@
 # Setup
 
-First, create a file `config.py` with the token like below:
-
-```py
-token = "my_secret_token"
-```
+First, move `example-config.py` to `config.py` and fill in the Discord bot
+token and the Piazza network ID.
 
 Then, to install dependencies, run the following:
 
