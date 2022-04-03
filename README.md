@@ -14,3 +14,5 @@ $ poetry install
 ```sh
 $ poetry run python main.py
 ```
+
+This will prompt you for your Piazza email address and password.
