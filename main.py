@@ -42,9 +42,10 @@ class Client(discord.Client):
             url = f"https://piazza.com/class/{config.network}?cid="
 
             # Construct a pretty embed
+            quoted_text = "\n".join([f"> {line}" for line in content[:80].split("\n")])
             e = discord.Embed(
                 title=subject,
-                description="> " + content[:80] + f"...\n\nTo delete this, <@{message.author.id}> can react with 🗑️.",
+                description=quoted_text + f"...\n\nTo delete this, <@{message.author.id}> can react with 🗑️.",
                 url=url + n,
                 color=0xffb862
             )
