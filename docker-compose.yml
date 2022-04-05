@@ -1,0 +1,7 @@
+version: "3.5"
+services:
+  piazza-bot:
+    build:
+      context: .
+    volumes:
+      - ./config.py:/app/config.py
