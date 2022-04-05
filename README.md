@@ -21,3 +21,7 @@ $ poetry run python main.py
 ```
 
 By default, this will prompt you for your Piazza email address and password. If you don't want to log in every time, set `email` and `password` in your configuration file.
+
+## Docker
+
+The example [`docker-compose.yml`](./docker-compose.yml) will build and run this bot in a Docker container. Edit it as needed; just make sure that your configuration is at `/app/config.py` in the container.
