@@ -3,7 +3,6 @@ import re
 import config
 from piazza_api import Piazza
 
-
 class Client(discord.Client):
     def __init__(self):
         super(Client, self).__init__()
@@ -13,7 +12,7 @@ class Client(discord.Client):
 
         # Piazza setup
         p = Piazza()
-        p.user_login()
+        p.user_login(config.email, config.password)
         self.network = p.network(config.network)
 
     async def on_ready(self):
