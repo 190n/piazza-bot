@@ -2,7 +2,7 @@
 
 This is a simple Discord bot which responds to messages that mention Piazza questions (for instance `p38` to refer to question @38) with a link to the question and a preview of the content.
 
-Originally written @glapa-grossklag, now maintained (only the minimum amount necessary :3) by me.
+Originally written by [@glapa-grossklag](https://github.com/glapa-grossklag), now maintained (only the minimum amount necessary :3) by me.
 
 ## Setup
 
