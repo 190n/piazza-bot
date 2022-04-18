@@ -1,3 +1,5 @@
 config.py
 __pycache__
 .venv
+config.json
+node_modules
