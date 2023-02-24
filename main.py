@@ -2,11 +2,10 @@ import discord
 import re
 import config
 from piazza_api import Piazza
-import random
 
 class Client(discord.Client):
-    def __init__(self, **kwargs):
-        super(Client, self).__init__(**kwargs)
+    def __init__(self):
+        super(Client, self).__init__()
 
         # Regex to check if message wants a post
         self.piazza_regex = re.compile(r"(^|\s)p([0-9]+)", re.IGNORECASE)
@@ -53,10 +52,6 @@ class Client(discord.Client):
             reply = await message.reply(embed=e)
             await reply.add_reaction("🗑️")
 
-        if '@someone' in message.content:
-            user = random.choice(message.guild.members)
-            await message.reply(f'🎲 <@{user.id}>')
-
 
     async def on_raw_reaction_add(self, payload):
         if payload.user_id == self.user.id:
@@ -76,9 +71,7 @@ class Client(discord.Client):
 
 
 def main():
-    intents = discord.Intents.default()
-    intents.members = True
-    client = Client(intents=intents)
+    client = Client()
     client.run(config.token)
 
 
