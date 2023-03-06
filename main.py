@@ -2,6 +2,7 @@ import discord
 import re
 import config
 from piazza_api import Piazza
+import html
 
 class Client(discord.Client):
     def __init__(self):
@@ -36,6 +37,8 @@ class Client(discord.Client):
 
             # Try to remove HTML from content
             content = re.sub('<[^<]+?>', '', content)
+            subject = html.unescape(subject)
+            content = html.unescape(content)
 
             # The base of the URL of any post
             url = f"https://piazza.com/class/{config.network}?cid="
